@@ -15,7 +15,7 @@ describe("ConfigTestCases", function() {
 			name: cat,
 			tests: fs.readdirSync(path.join(casesPath, cat)).filter(function(folder) {
 				return folder.indexOf("_") < 0;
-			})
+			}).sort()
 		};
 	});
 	categories.forEach(function(category) {
@@ -39,6 +39,10 @@ describe("ConfigTestCases", function() {
 					});
 					webpack(options, function(err, stats) {
 						if(err) return done(err);
+						fs.writeFileSync(path.join(outputDirectory, "stats.txt"), stats.toString({
+							reasons: true,
+							errorDetails: true
+						}), "utf-8");
 						var jsonStats = stats.toJson({
 							errorDetails: true
 						});
@@ -54,7 +58,7 @@ describe("ConfigTestCases", function() {
 						}
 
 						function _require(module) {
-							if(module.substr(0, 2) === "./") {
+							if(/^\.\.?\//.test(module)) {
 								var p = path.join(outputDirectory, module);
 								var fn;
 								if(options.target === "web") {
@@ -81,6 +85,8 @@ describe("ConfigTestCases", function() {
 							// try to load a test file
 							testConfig = require(path.join(testDirectory, "test.config.js"));
 						} catch(e) {}
+
+						if(testConfig.noTests) return process.nextTick(done);
 						for(var i = 0; i < optionsArr.length; i++) {
 							var bundlePath = testConfig.findBundle(i, optionsArr[i]);
 							if(bundlePath) {

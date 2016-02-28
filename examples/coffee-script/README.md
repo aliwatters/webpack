@@ -65,17 +65,20 @@ module.exports = 42
 /******/ 	__webpack_require__.p = "js/";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/*!********************!*\
-  !*** ./example.js ***!
-  \********************/
-/***/ function(module, exports, __webpack_require__) {
+/*!*********************!*\
+  !*** ./cup2.coffee ***!
+  \*********************/
+/***/ function(module, exports) {
 
-	console.log(__webpack_require__(/*! ./cup1 */ 1));
+	console.log("yeah coffee-script");
+
+	module.exports = 42;
+
 
 /***/ },
 /* 1 */
@@ -87,22 +90,19 @@ module.exports = 42
 	module.exports = {
 	  cool: "stuff",
 	  answer: 42,
-	  external: __webpack_require__(/*! ./cup2.coffee */ 2),
-	  again: __webpack_require__(/*! ./cup2 */ 2)
+	  external: __webpack_require__(/*! ./cup2.coffee */ 0),
+	  again: __webpack_require__(/*! ./cup2 */ 0)
 	};
 
 
 /***/ },
 /* 2 */
-/*!*********************!*\
-  !*** ./cup2.coffee ***!
-  \*********************/
-/***/ function(module, exports) {
+/*!********************!*\
+  !*** ./example.js ***!
+  \********************/
+/***/ function(module, exports, __webpack_require__) {
 
-	console.log("yeah coffee-script");
-
-	module.exports = 42;
-
+	console.log(__webpack_require__(/*! ./cup1 */ 1));
 
 /***/ }
 /******/ ]);
@@ -113,35 +113,35 @@ module.exports = 42
 ## Uncompressed
 
 ```
-Hash: ef589306f6baca460772
-Version: webpack 1.9.10
-Time: 163ms
+Hash: fa6a322e8d9b34546553
+Version: webpack 2.0.6-beta
+Time: 178ms
     Asset     Size  Chunks             Chunk Names
-output.js  2.05 kB       0  [emitted]  main
+output.js  2.07 kB       0  [emitted]  main
 chunk    {0} output.js (main) 206 bytes [rendered]
-    > main [0] ./example.js 
-    [0] ./example.js 31 bytes {0} [built]
-    [1] ./cup1.coffee 118 bytes {0} [built]
-        cjs require ./cup1 [0] ./example.js 1:12-29
-    [2] ./cup2.coffee 57 bytes {0} [built]
+    > main [2] ./example.js 
+    [0] ./cup2.coffee 57 bytes {0} [built]
         cjs require ./cup2.coffee [1] ./cup1.coffee 4:12-36
         cjs require ./cup2 [1] ./cup1.coffee 5:9-26
+    [1] ./cup1.coffee 118 bytes {0} [built]
+        cjs require ./cup1 [2] ./example.js 1:12-29
+    [2] ./example.js 31 bytes {0} [built]
 ```
 
 ## Minimized (uglify-js, no zip)
 
 ```
-Hash: 5ac3ee8063740090a5a9
-Version: webpack 1.9.10
-Time: 275ms
+Hash: fa6a322e8d9b34546553
+Version: webpack 2.0.6-beta
+Time: 229ms
     Asset       Size  Chunks             Chunk Names
-output.js  379 bytes       0  [emitted]  main
+output.js  383 bytes       0  [emitted]  main
 chunk    {0} output.js (main) 206 bytes [rendered]
-    > main [0] ./example.js 
-    [0] ./example.js 31 bytes {0} [built]
-    [1] ./cup2.coffee 57 bytes {0} [built]
-        cjs require ./cup2.coffee [2] ./cup1.coffee 4:12-36
-        cjs require ./cup2 [2] ./cup1.coffee 5:9-26
-    [2] ./cup1.coffee 118 bytes {0} [built]
-        cjs require ./cup1 [0] ./example.js 1:12-29
+    > main [2] ./example.js 
+    [0] ./cup2.coffee 57 bytes {0} [built]
+        cjs require ./cup2.coffee [1] ./cup1.coffee 4:12-36
+        cjs require ./cup2 [1] ./cup1.coffee 5:9-26
+    [1] ./cup1.coffee 118 bytes {0} [built]
+        cjs require ./cup1 [2] ./example.js 1:12-29
+    [2] ./example.js 31 bytes {0} [built]
 ```

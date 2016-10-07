@@ -56,16 +56,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
 /******/ 		};
 
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
 /******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
+/******/ 		module.l = true;
 
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -78,6 +78,30 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 
+/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+
+/******/ 	// define getter function for harmory exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		Object.defineProperty(exports, name, {
+/******/ 			configurable: false,
+/******/ 			enumerable: true,
+/******/ 			get: getter
+/******/ 		});
+/******/ 	};
+
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "js/";
 
@@ -87,12 +111,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
+/* unknown exports provided */
+/* all exports used */
 /*!******************!*\
   !*** ./alpha.js ***!
   \******************/
 /***/ function(module, exports) {
 
-	module.exports = "alpha";
+module.exports = "alpha";
 
 /***/ }
 /******/ ])
@@ -126,16 +152,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
 /******/ 		};
 
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
 /******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
+/******/ 		module.l = true;
 
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -148,6 +174,30 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 
+/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+
+/******/ 	// define getter function for harmory exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		Object.defineProperty(exports, name, {
+/******/ 			configurable: false,
+/******/ 			enumerable: true,
+/******/ 			get: getter
+/******/ 		});
+/******/ 	};
+
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "js/";
 
@@ -158,12 +208,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ([
 /* 0 */,
 /* 1 */
+/* unknown exports provided */
+/* all exports used */
 /*!*****************!*\
   !*** ./beta.js ***!
   \*****************/
 /***/ function(module, exports) {
 
-	module.exports = "beta";
+module.exports = "beta";
 
 /***/ }
 /******/ ])
@@ -176,16 +228,18 @@ return /******/ (function(modules) { // webpackBootstrap
 ## Uncompressed
 
 ```
-Hash: 9675eca99092bd148a2a
-Version: webpack 2.0.6-beta
-Time: 66ms
+Hash: 082bbeea226fa367215b
+Version: webpack 2.1.0-beta.25
+Time: 104ms
              Asset     Size  Chunks             Chunk Names
- MyLibrary.beta.js  1.94 kB       0  [emitted]  beta
-MyLibrary.alpha.js  1.94 kB       1  [emitted]  alpha
-chunk    {0} MyLibrary.beta.js (beta) 24 bytes [rendered]
+ MyLibrary.beta.js  3.02 kB       0  [emitted]  beta
+MyLibrary.alpha.js  3.01 kB       1  [emitted]  alpha
+Entrypoint alpha = MyLibrary.alpha.js
+Entrypoint beta = MyLibrary.beta.js
+chunk    {0} MyLibrary.beta.js (beta) 24 bytes [entry] [rendered]
     > beta [1] ./beta.js 
     [1] ./beta.js 24 bytes {0} [built]
-chunk    {1} MyLibrary.alpha.js (alpha) 25 bytes [rendered]
+chunk    {1} MyLibrary.alpha.js (alpha) 25 bytes [entry] [rendered]
     > alpha [0] ./alpha.js 
     [0] ./alpha.js 25 bytes {1} [built]
 ```
@@ -193,16 +247,18 @@ chunk    {1} MyLibrary.alpha.js (alpha) 25 bytes [rendered]
 ## Minimized (uglify-js, no zip)
 
 ```
-Hash: 9675eca99092bd148a2a
-Version: webpack 2.0.6-beta
-Time: 200ms
+Hash: 082bbeea226fa367215b
+Version: webpack 2.1.0-beta.25
+Time: 248ms
              Asset       Size  Chunks             Chunk Names
- MyLibrary.beta.js  495 bytes       0  [emitted]  beta
-MyLibrary.alpha.js  497 bytes       1  [emitted]  alpha
-chunk    {0} MyLibrary.beta.js (beta) 24 bytes [rendered]
+ MyLibrary.beta.js  775 bytes       0  [emitted]  beta
+MyLibrary.alpha.js  777 bytes       1  [emitted]  alpha
+Entrypoint alpha = MyLibrary.alpha.js
+Entrypoint beta = MyLibrary.beta.js
+chunk    {0} MyLibrary.beta.js (beta) 24 bytes [entry] [rendered]
     > beta [1] ./beta.js 
     [1] ./beta.js 24 bytes {0} [built]
-chunk    {1} MyLibrary.alpha.js (alpha) 25 bytes [rendered]
+chunk    {1} MyLibrary.alpha.js (alpha) 25 bytes [entry] [rendered]
     > alpha [0] ./alpha.js 
     [0] ./alpha.js 25 bytes {1} [built]
 ```

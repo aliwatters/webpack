@@ -8,7 +8,10 @@ var webpack = require("../lib/webpack");
 
 var base = path.join(__dirname, "statsCases");
 var outputBase = path.join(__dirname, "js", "stats");
-var tests = fs.readdirSync(base);
+var tests = fs.readdirSync(base).filter(function(testName) {
+	return fs.existsSync(path.join(base, testName, "index.js")) ||
+		fs.existsSync(path.join(base, testName, "webpack.config.js"))
+});
 var Stats = require("../lib/Stats");
 
 describe("Stats", function() {
@@ -24,9 +27,9 @@ describe("Stats", function() {
 				options = require(path.join(base, testName, "webpack.config.js"));
 			}
 			(Array.isArray(options) ? options : [options]).forEach(function(options) {
-				options.context = path.join(base, testName);
-				options.output = options.output || {};
-				options.output.path = path.join(outputBase, testName);
+				if(!options.context) options.context = path.join(base, testName);
+				if(!options.output) options.output = options.output || {};
+				if(!options.output.path) options.output.path = path.join(outputBase, testName);
 			});
 			var c = webpack(options);
 			var compilers = c.compilers ? c.compilers : [c];
@@ -81,7 +84,8 @@ describe("Stats", function() {
 				actual = actual
 					.replace(/\r\n?/g, "\n")
 					.replace(/[\t ]*Version:.+\n/g, "")
-					.replace(path.join(base, testName), "Xdir/" + testName);
+					.replace(path.join(base, testName), "Xdir/" + testName)
+					.replace(/ dependencies:Xms/g, "");
 				var expected = fs.readFileSync(path.join(base, testName, "expected.txt"), "utf-8").replace(/\r/g, "");
 				if(actual !== expected) {
 					fs.writeFileSync(path.join(base, testName, "actual.txt"), actual, "utf-8");
@@ -131,6 +135,7 @@ describe("Stats", function() {
 				errors: ['firstError'],
 				warnings: [],
 				assets: [],
+				entrypoints: {},
 				chunks: [],
 				modules: [],
 				children: [],
@@ -153,10 +158,13 @@ describe("Stats", function() {
 					version: false,
 					timings: true,
 					hash: true,
+					entrypoints: false,
 					chunks: true,
 					chunkModules: false,
 					errorDetails: true,
 					reasons: false,
+					usedExports: false,
+					providedExports: false,
 					colors: true
 				});
 			});
@@ -175,9 +183,12 @@ describe("Stats", function() {
 					version: false,
 					timings: false,
 					assets: false,
+					entrypoints: false,
 					chunks: false,
 					modules: false,
 					reasons: false,
+					usedExports: false,
+					providedExports: false,
 					children: false,
 					source: false,
 					errors: false,

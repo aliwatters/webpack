@@ -72,7 +72,10 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+				loader: ExtractTextPlugin.extract({
+					notExtractLoader: "style-loader",
+					loader: "css-loader"
+				})
 			},
 			{ test: /\.png$/, loader: "file-loader" }
 		]
@@ -83,7 +86,9 @@ module.exports = {
 			filename: "commons.js",
 			chunks: ["A", "B"]
 		}),
-		new ExtractTextPlugin("[name].css"),
+		new ExtractTextPlugin({
+			filename: "[name].css"
+		}),
 	]
 };
 ```
@@ -91,27 +96,31 @@ module.exports = {
 # js/A.js
 
 ``` javascript
-webpackJsonp([3],[
+webpackJsonp([1],[
 /* 0 */,
 /* 1 */
+/* unknown exports provided */
+/* all exports used */
 /*!********************!*\
   !*** ./styleA.css ***!
   \********************/
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+// removed by extract-text-webpack-plugin
 
 /***/ },
 /* 2 */,
 /* 3 */,
 /* 4 */
+/* unknown exports provided */
+/* all exports used */
 /*!**************!*\
   !*** ./a.js ***!
   \**************/
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(/*! ./style.css */ 0);
-	__webpack_require__(/*! ./styleA.css */ 1);
+__webpack_require__(/*! ./style.css */ 0);
+__webpack_require__(/*! ./styleA.css */ 1);
 
 
 /***/ }
@@ -170,120 +179,131 @@ body{background:url(js/ce21cbdd9b894e6af794813eb3fdaf60.png)}.c{background:url(j
 ## Uncompressed
 
 ```
-Hash: a27b5cbc25b7ed54ea02
-Version: webpack 2.0.6-beta
-Time: 801ms
+Hash: 76b12a0a76d4a3402d97
+Version: webpack 2.1.0-beta.25
+Time: 934ms
                                Asset       Size  Chunks             Chunk Names
-                                B.js  428 bytes       2  [emitted]  B
+                                C.js    2.85 kB       2  [emitted]  C
 d090b6fba0f6d326d282a19146ff54a7.png  120 bytes          [emitted]  
 ce21cbdd9b894e6af794813eb3fdaf60.png  119 bytes          [emitted]  
 c2a2f62d69330b7d787782f5010f9d13.png  120 bytes          [emitted]  
-                                C.js    1.72 kB       0  [emitted]  C
-                          commons.js    4.27 kB       1  [emitted]  commons
+                                B.js  531 bytes       0  [emitted]  B
+                                A.js  553 bytes       1  [emitted]  A
 16155c689e517682064c99893cb832cc.png  120 bytes          [emitted]  
-                                A.js  450 bytes       3  [emitted]  A
-                               A.css   69 bytes       3  [emitted]  A
-                               B.css   69 bytes       2  [emitted]  B
-                               C.css  140 bytes       0  [emitted]  C
-                         commons.css   71 bytes       1  [emitted]  commons
-chunk    {0} C.js, C.css (C) 67 bytes [rendered]
+                          commons.js    5.57 kB       3  [emitted]  commons
+                               A.css   66 bytes       1  [emitted]  A
+                               B.css   66 bytes       0  [emitted]  B
+                               C.css  134 bytes       2  [emitted]  C
+                         commons.css   68 bytes       3  [emitted]  commons
+Entrypoint A = commons.js commons.css A.js A.css
+Entrypoint B = commons.js commons.css B.js B.css
+Entrypoint C = C.js C.css
+chunk    {0} B.js, B.css (B) 90 bytes {3} [initial] [rendered]
+    > B [5] ./b.js 
+    [2] ./styleB.css 41 bytes {0} [built]
+        cjs require ./styleB.css [5] ./b.js 2:0-23
+    [5] ./b.js 49 bytes {0} [built]
+chunk    {1} A.js, A.css (A) 90 bytes {3} [initial] [rendered]
+    > A [4] ./a.js 
+    [1] ./styleA.css 41 bytes {1} [built]
+        cjs require ./styleA.css [4] ./a.js 2:0-23
+    [4] ./a.js 49 bytes {1} [built]
+chunk    {2} C.js, C.css (C) 66 bytes [entry] [rendered]
     > C [6] ./c.js 
-    [3] ./styleC.css 41 bytes {0} [built]
+    [3] ./styleC.css 41 bytes {2} [built]
         cjs require ./styleC.css [6] ./c.js 1:0-23
-    [6] ./c.js 26 bytes {0} [built]
-chunk    {1} commons.js, commons.css (commons) 41 bytes [rendered]
-    [0] ./style.css 41 bytes {1} [built]
+    [6] ./c.js 25 bytes {2} [built]
+chunk    {3} commons.js, commons.css (commons) 41 bytes [entry] [rendered]
+    [0] ./style.css 41 bytes {3} [built]
         cjs require ./style.css [4] ./a.js 1:0-22
         cjs require ./style.css [5] ./b.js 1:0-22
-chunk    {2} B.js, B.css (B) 92 bytes {1} [rendered]
-    > B [5] ./b.js 
-    [2] ./styleB.css 41 bytes {2} [built]
-        cjs require ./styleB.css [5] ./b.js 2:0-23
-    [5] ./b.js 51 bytes {2} [built]
-chunk    {3} A.js, A.css (A) 92 bytes {1} [rendered]
-    > A [4] ./a.js 
-    [1] ./styleA.css 41 bytes {3} [built]
-        cjs require ./styleA.css [4] ./a.js 2:0-23
-    [4] ./a.js 51 bytes {3} [built]
 Child extract-text-webpack-plugin:
-    chunk    {0} extract-text-webpack-plugin-output-filename 1.81 kB [rendered]
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    chunk    {0} extract-text-webpack-plugin-output-filename 1.81 kB [entry] [rendered]
         > [2] (webpack)/~/css-loader!./styleA.css 
         [0] (webpack)/~/css-loader/lib/css-base.js 1.51 kB {0} [built]
             cjs require ./../../node_modules/css-loader/lib/css-base.js [2] (webpack)/~/css-loader!./styleA.css 1:27-85
         [1] ./imageA.png 82 bytes {0} [built]
-            cjs require ./imageA.png [2] (webpack)/~/css-loader!./styleA.css 6:56-79
-        [2] (webpack)/~/css-loader!./styleA.css 227 bytes {0} [built]
+            cjs require ./imageA.png [2] (webpack)/~/css-loader!./styleA.css 6:54-77
+        [2] (webpack)/~/css-loader!./styleA.css 221 bytes {0} [built]
 Child extract-text-webpack-plugin:
-    chunk    {0} extract-text-webpack-plugin-output-filename 1.81 kB [rendered]
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    chunk    {0} extract-text-webpack-plugin-output-filename 1.81 kB [entry] [rendered]
         > [2] (webpack)/~/css-loader!./styleB.css 
         [0] (webpack)/~/css-loader/lib/css-base.js 1.51 kB {0} [built]
             cjs require ./../../node_modules/css-loader/lib/css-base.js [2] (webpack)/~/css-loader!./styleB.css 1:27-85
         [1] ./imageB.png 82 bytes {0} [built]
-            cjs require ./imageB.png [2] (webpack)/~/css-loader!./styleB.css 6:56-79
-        [2] (webpack)/~/css-loader!./styleB.css 227 bytes {0} [built]
+            cjs require ./imageB.png [2] (webpack)/~/css-loader!./styleB.css 6:54-77
+        [2] (webpack)/~/css-loader!./styleB.css 221 bytes {0} [built]
 Child extract-text-webpack-plugin:
-    chunk    {0} extract-text-webpack-plugin-output-filename 1.82 kB [rendered]
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    chunk    {0} extract-text-webpack-plugin-output-filename 1.81 kB [entry] [rendered]
         > [2] (webpack)/~/css-loader!./style.css 
         [0] (webpack)/~/css-loader/lib/css-base.js 1.51 kB {0} [built]
             cjs require ./../../node_modules/css-loader/lib/css-base.js [2] (webpack)/~/css-loader!./style.css 1:27-85
         [1] ./image.png 82 bytes {0} [built]
-            cjs require ./image.png [2] (webpack)/~/css-loader!./style.css 6:58-80
-        [2] (webpack)/~/css-loader!./style.css 228 bytes {0} [built]
+            cjs require ./image.png [2] (webpack)/~/css-loader!./style.css 6:56-78
+        [2] (webpack)/~/css-loader!./style.css 222 bytes {0} [built]
 Child extract-text-webpack-plugin:
-    chunk    {0} extract-text-webpack-plugin-output-filename 2.21 kB [rendered]
-        > [3] (webpack)/~/css-loader!./styleC.css 
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    chunk    {0} extract-text-webpack-plugin-output-filename 2.19 kB [entry] [rendered]
+        > [4] (webpack)/~/css-loader!./styleC.css 
         [0] (webpack)/~/css-loader/lib/css-base.js 1.51 kB {0} [built]
             cjs require ./../../node_modules/css-loader/lib/css-base.js [1] (webpack)/~/css-loader!./style.css 1:27-85
-            cjs require ./../../node_modules/css-loader/lib/css-base.js [3] (webpack)/~/css-loader!./styleC.css 1:27-85
-        [1] (webpack)/~/css-loader!./style.css 228 bytes {0} [built]
-            cjs require -!./../../node_modules/css-loader/index.js!./style.css [3] (webpack)/~/css-loader!./styleC.css 3:10-75
+            cjs require ./../../node_modules/css-loader/lib/css-base.js [4] (webpack)/~/css-loader!./styleC.css 1:27-85
+        [1] (webpack)/~/css-loader!./style.css 222 bytes {0} [built]
+            cjs require -!./../../node_modules/css-loader/index.js!./style.css [4] (webpack)/~/css-loader!./styleC.css 3:10-75
         [2] ./imageC.png 82 bytes {0} [built]
-            cjs require ./imageC.png [3] (webpack)/~/css-loader!./styleC.css 6:56-79
-        [3] (webpack)/~/css-loader!./styleC.css 308 bytes {0} [built]
-        [4] ./image.png 82 bytes {0} [built]
-            cjs require ./image.png [1] (webpack)/~/css-loader!./style.css 6:58-80
+            cjs require ./imageC.png [4] (webpack)/~/css-loader!./styleC.css 6:54-77
+        [3] ./image.png 82 bytes {0} [built]
+            cjs require ./image.png [1] (webpack)/~/css-loader!./style.css 6:56-78
+        [4] (webpack)/~/css-loader!./styleC.css 302 bytes {0} [built]
 ```
 
 ## Minimized (uglify-js, no zip)
 
 ```
-Hash: feee54d8663ea06f8e31
-Version: webpack 2.0.6-beta
-Time: 1071ms
+Hash: 76b12a0a76d4a3402d97
+Version: webpack 2.1.0-beta.25
+Time: 1287ms
                                Asset       Size  Chunks             Chunk Names
-                                B.js   71 bytes       2  [emitted]  B
+                                C.js  531 bytes       2  [emitted]  C
 d090b6fba0f6d326d282a19146ff54a7.png  120 bytes          [emitted]  
 ce21cbdd9b894e6af794813eb3fdaf60.png  119 bytes          [emitted]  
 c2a2f62d69330b7d787782f5010f9d13.png  120 bytes          [emitted]  
-                                C.js  251 bytes       0  [emitted]  C
-                          commons.js  967 bytes       1  [emitted]  commons
+                                B.js   71 bytes       0  [emitted]  B
+                                A.js   70 bytes       1  [emitted]  A
 16155c689e517682064c99893cb832cc.png  120 bytes          [emitted]  
-                                A.js   70 bytes       3  [emitted]  A
-                               A.css   59 bytes       3  [emitted]  A
-                               B.css   59 bytes       2  [emitted]  B
-                               C.css  120 bytes       0  [emitted]  C
-                         commons.css   61 bytes       1  [emitted]  commons
-chunk    {0} C.js, C.css (C) 67 bytes [rendered]
+                          commons.js    1.34 kB       3  [emitted]  commons
+                               A.css   59 bytes       1  [emitted]  A
+                               B.css   59 bytes       0  [emitted]  B
+                               C.css  120 bytes       2  [emitted]  C
+                         commons.css   61 bytes       3  [emitted]  commons
+Entrypoint A = commons.js commons.css A.js A.css
+Entrypoint B = commons.js commons.css B.js B.css
+Entrypoint C = C.js C.css
+chunk    {0} B.js, B.css (B) 90 bytes {3} [initial] [rendered]
+    > B [5] ./b.js 
+    [2] ./styleB.css 41 bytes {0} [built]
+        cjs require ./styleB.css [5] ./b.js 2:0-23
+    [5] ./b.js 49 bytes {0} [built]
+chunk    {1} A.js, A.css (A) 90 bytes {3} [initial] [rendered]
+    > A [4] ./a.js 
+    [1] ./styleA.css 41 bytes {1} [built]
+        cjs require ./styleA.css [4] ./a.js 2:0-23
+    [4] ./a.js 49 bytes {1} [built]
+chunk    {2} C.js, C.css (C) 66 bytes [entry] [rendered]
     > C [6] ./c.js 
-    [3] ./styleC.css 41 bytes {0} [built]
+    [3] ./styleC.css 41 bytes {2} [built]
         cjs require ./styleC.css [6] ./c.js 1:0-23
-    [6] ./c.js 26 bytes {0} [built]
-chunk    {1} commons.js, commons.css (commons) 41 bytes [rendered]
-    [0] ./style.css 41 bytes {1} [built]
+    [6] ./c.js 25 bytes {2} [built]
+chunk    {3} commons.js, commons.css (commons) 41 bytes [entry] [rendered]
+    [0] ./style.css 41 bytes {3} [built]
         cjs require ./style.css [4] ./a.js 1:0-22
         cjs require ./style.css [5] ./b.js 1:0-22
-chunk    {2} B.js, B.css (B) 92 bytes {1} [rendered]
-    > B [5] ./b.js 
-    [2] ./styleB.css 41 bytes {2} [built]
-        cjs require ./styleB.css [5] ./b.js 2:0-23
-    [5] ./b.js 51 bytes {2} [built]
-chunk    {3} A.js, A.css (A) 92 bytes {1} [rendered]
-    > A [4] ./a.js 
-    [1] ./styleA.css 41 bytes {3} [built]
-        cjs require ./styleA.css [4] ./a.js 2:0-23
-    [4] ./a.js 51 bytes {3} [built]
 Child extract-text-webpack-plugin:
-    chunk    {0} extract-text-webpack-plugin-output-filename 1.8 kB [rendered]
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    chunk    {0} extract-text-webpack-plugin-output-filename 1.8 kB [entry] [rendered]
         > [2] (webpack)/~/css-loader!./styleA.css 
         [0] (webpack)/~/css-loader/lib/css-base.js 1.51 kB {0} [built]
             cjs require ./../../node_modules/css-loader/lib/css-base.js [2] (webpack)/~/css-loader!./styleA.css 1:27-85
@@ -291,7 +311,8 @@ Child extract-text-webpack-plugin:
             cjs require ./imageA.png [2] (webpack)/~/css-loader!./styleA.css 6:48-71
         [2] (webpack)/~/css-loader!./styleA.css 210 bytes {0} [built]
 Child extract-text-webpack-plugin:
-    chunk    {0} extract-text-webpack-plugin-output-filename 1.8 kB [rendered]
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    chunk    {0} extract-text-webpack-plugin-output-filename 1.8 kB [entry] [rendered]
         > [2] (webpack)/~/css-loader!./styleB.css 
         [0] (webpack)/~/css-loader/lib/css-base.js 1.51 kB {0} [built]
             cjs require ./../../node_modules/css-loader/lib/css-base.js [2] (webpack)/~/css-loader!./styleB.css 1:27-85
@@ -299,7 +320,8 @@ Child extract-text-webpack-plugin:
             cjs require ./imageB.png [2] (webpack)/~/css-loader!./styleB.css 6:48-71
         [2] (webpack)/~/css-loader!./styleB.css 210 bytes {0} [built]
 Child extract-text-webpack-plugin:
-    chunk    {0} extract-text-webpack-plugin-output-filename 1.8 kB [rendered]
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    chunk    {0} extract-text-webpack-plugin-output-filename 1.8 kB [entry] [rendered]
         > [2] (webpack)/~/css-loader!./style.css 
         [0] (webpack)/~/css-loader/lib/css-base.js 1.51 kB {0} [built]
             cjs require ./../../node_modules/css-loader/lib/css-base.js [2] (webpack)/~/css-loader!./style.css 1:27-85
@@ -307,16 +329,17 @@ Child extract-text-webpack-plugin:
             cjs require ./image.png [2] (webpack)/~/css-loader!./style.css 6:50-72
         [2] (webpack)/~/css-loader!./style.css 211 bytes {0} [built]
 Child extract-text-webpack-plugin:
-    chunk    {0} extract-text-webpack-plugin-output-filename 2.17 kB [rendered]
-        > [3] (webpack)/~/css-loader!./styleC.css 
+    Entrypoint undefined = extract-text-webpack-plugin-output-filename
+    chunk    {0} extract-text-webpack-plugin-output-filename 2.17 kB [entry] [rendered]
+        > [4] (webpack)/~/css-loader!./styleC.css 
         [0] (webpack)/~/css-loader/lib/css-base.js 1.51 kB {0} [built]
             cjs require ./../../node_modules/css-loader/lib/css-base.js [1] (webpack)/~/css-loader!./style.css 1:27-85
-            cjs require ./../../node_modules/css-loader/lib/css-base.js [3] (webpack)/~/css-loader!./styleC.css 1:27-85
+            cjs require ./../../node_modules/css-loader/lib/css-base.js [4] (webpack)/~/css-loader!./styleC.css 1:27-85
         [1] (webpack)/~/css-loader!./style.css 211 bytes {0} [built]
-            cjs require -!./../../node_modules/css-loader/index.js!./style.css [3] (webpack)/~/css-loader!./styleC.css 3:10-75
+            cjs require -!./../../node_modules/css-loader/index.js!./style.css [4] (webpack)/~/css-loader!./styleC.css 3:10-75
         [2] ./imageC.png 82 bytes {0} [built]
-            cjs require ./imageC.png [3] (webpack)/~/css-loader!./styleC.css 6:48-71
-        [3] (webpack)/~/css-loader!./styleC.css 291 bytes {0} [built]
-        [4] ./image.png 82 bytes {0} [built]
+            cjs require ./imageC.png [4] (webpack)/~/css-loader!./styleC.css 6:48-71
+        [3] ./image.png 82 bytes {0} [built]
             cjs require ./image.png [1] (webpack)/~/css-loader!./style.css 6:50-72
+        [4] (webpack)/~/css-loader!./styleC.css 291 bytes {0} [built]
 ```

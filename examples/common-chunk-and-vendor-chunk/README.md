@@ -62,14 +62,15 @@ module.exports = {
 
 # js/vendor.js
 
+<details><summary>`/******/ (function(modules) { /* webpackBootstrap */ })`</summary>
 ``` javascript
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
 /******/ 	var parentJsonpFunction = window["webpackJsonp"];
-/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules, executeModule) {
+/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules, executeModules) {
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
-/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		var moduleId, chunkId, i = 0, resolves = [], result;
 /******/ 		for(;i < chunkIds.length; i++) {
 /******/ 			chunkId = chunkIds[i];
 /******/ 			if(installedChunks[chunkId])
@@ -77,14 +78,19 @@ module.exports = {
 /******/ 			installedChunks[chunkId] = 0;
 /******/ 		}
 /******/ 		for(moduleId in moreModules) {
-/******/ 			modules[moduleId] = moreModules[moduleId];
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
 /******/ 		}
-/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules);
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules, executeModules);
 /******/ 		while(resolves.length)
 /******/ 			resolves.shift()();
-/******/ 		if(executeModule + 1) { // typeof executeModule === "number"
-/******/ 			return __webpack_require__(executeModule);
+/******/ 		if(executeModules) {
+/******/ 			for(i=0; i < executeModules.length; i++) {
+/******/ 				result = __webpack_require__(__webpack_require__.s = executeModules[i]);
+/******/ 			}
 /******/ 		}
+/******/ 		return result;
 /******/ 	};
 
 /******/ 	// The module cache
@@ -92,7 +98,7 @@ module.exports = {
 
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		0: 0
+/******/ 		4: 0
 /******/ 	};
 
 /******/ 	// The require function
@@ -104,16 +110,16 @@ module.exports = {
 
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
 /******/ 		};
 
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
 /******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
+/******/ 		module.l = true;
 
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -123,7 +129,7 @@ module.exports = {
 /******/ 	// The chunk loading function for additional chunks
 /******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
 /******/ 		if(installedChunks[chunkId] === 0)
-/******/ 			return Promise.resolve()
+/******/ 			return Promise.resolve();
 
 /******/ 		// an Promise means "currently loading".
 /******/ 		if(installedChunks[chunkId]) {
@@ -164,46 +170,79 @@ module.exports = {
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 
+/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+
+/******/ 	// define getter function for harmory exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		Object.defineProperty(exports, name, {
+/******/ 			configurable: false,
+/******/ 			enumerable: true,
+/******/ 			get: getter
+/******/ 		});
+/******/ 	};
+
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "js/";
 
 /******/ 	// on error function for async loading
-/******/ 	__webpack_require__.oe = function(err) { throw err; };
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
+```
+</details>
+``` javascript
 /******/ ({
 
 /***/ 3:
+/* unknown exports provided */
+/* all exports used */
 /*!********************!*\
   !*** ./vendor1.js ***!
   \********************/
 /***/ function(module, exports) {
 
-	module.exports = "vendor1";
+module.exports = "vendor1";
 
 /***/ },
 
 /***/ 4:
+/* unknown exports provided */
+/* all exports used */
 /*!********************!*\
   !*** ./vendor2.js ***!
   \********************/
 /***/ function(module, exports) {
 
-	module.exports = "vendor2";
+module.exports = "vendor2";
 
 /***/ },
 
 /***/ 8:
+/* unknown exports provided */
+/* all exports used */
 /*!********************!*\
   !*** multi vendor ***!
   \********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(/*! ./vendor1 */3);
-	module.exports = __webpack_require__(/*! ./vendor2 */4);
+__webpack_require__(/*! ./vendor1 */3);
+module.exports = __webpack_require__(/*! ./vendor2 */4);
 
 
 /***/ }
@@ -214,23 +253,27 @@ module.exports = {
 # js/common.js
 
 ``` javascript
-webpackJsonp([1],[
+webpackJsonp([0],[
 /* 0 */
+/* unknown exports provided */
+/* all exports used */
 /*!*********************!*\
   !*** ./utility2.js ***!
   \*********************/
 /***/ function(module, exports) {
 
-	module.exports = "utility2";
+module.exports = "utility2";
 
 /***/ },
 /* 1 */
+/* unknown exports provided */
+/* all exports used */
 /*!*********************!*\
   !*** ./utility3.js ***!
   \*********************/
 /***/ function(module, exports) {
 
-	module.exports = "utility3";
+module.exports = "utility3";
 
 /***/ }
 ]);
@@ -239,28 +282,32 @@ webpackJsonp([1],[
 # js/pageA.js
 
 ``` javascript
-webpackJsonp([2],{
+webpackJsonp([1],{
 
 /***/ 2:
+/* unknown exports provided */
+/* all exports used */
 /*!*********************!*\
   !*** ./utility1.js ***!
   \*********************/
 /***/ function(module, exports) {
 
-	module.exports = "utility1";
+module.exports = "utility1";
 
 /***/ },
 
 /***/ 5:
+/* unknown exports provided */
+/* all exports used */
 /*!******************!*\
   !*** ./pageA.js ***!
   \******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var utility1 = __webpack_require__(/*! ./utility1 */ 2);
-	var utility2 = __webpack_require__(/*! ./utility2 */ 0);
+var utility1 = __webpack_require__(/*! ./utility1 */ 2);
+var utility2 = __webpack_require__(/*! ./utility2 */ 0);
 
-	module.exports = "pageA";
+module.exports = "pageA";
 
 /***/ }
 
@@ -270,18 +317,20 @@ webpackJsonp([2],{
 # js/pageB.js
 
 ``` javascript
-webpackJsonp([4],{
+webpackJsonp([3],{
 
 /***/ 6:
+/* unknown exports provided */
+/* all exports used */
 /*!******************!*\
   !*** ./pageB.js ***!
   \******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var utility2 = __webpack_require__(/*! ./utility2 */ 0);
-	var utility3 = __webpack_require__(/*! ./utility3 */ 1);
+var utility2 = __webpack_require__(/*! ./utility2 */ 0);
+var utility3 = __webpack_require__(/*! ./utility3 */ 1);
 
-	module.exports = "pageB";
+module.exports = "pageB";
 
 /***/ }
 
@@ -291,18 +340,20 @@ webpackJsonp([4],{
 # js/pageC.js
 
 ``` javascript
-webpackJsonp([3],{
+webpackJsonp([2],{
 
 /***/ 7:
+/* unknown exports provided */
+/* all exports used */
 /*!******************!*\
   !*** ./pageC.js ***!
   \******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var utility2 = __webpack_require__(/*! ./utility2 */ 0);
-	var utility3 = __webpack_require__(/*! ./utility3 */ 1);
+var utility2 = __webpack_require__(/*! ./utility2 */ 0);
+var utility3 = __webpack_require__(/*! ./utility3 */ 1);
 
-	module.exports = "pageC";
+module.exports = "pageC";
 
 /***/ }
 
@@ -314,91 +365,87 @@ webpackJsonp([3],{
 ## Uncompressed
 
 ```
-Hash: ecc1460eefa0316fd425
-Version: webpack 2.0.6-beta
-Time: 127ms
+Hash: 811ddf3b9dbcf66e3362
+Version: webpack 2.1.0-beta.25
+Time: 140ms
     Asset       Size  Chunks             Chunk Names
-vendor.js    4.79 kB       0  [emitted]  vendor
-common.js  347 bytes       1  [emitted]  common
- pageA.js  485 bytes       2  [emitted]  pageA
- pageC.js  320 bytes       3  [emitted]  pageC
- pageB.js  320 bytes       4  [emitted]  pageB
-chunk    {0} vendor.js (vendor) 94 bytes [rendered]
-    > vendor [8] multi vendor 
-    [3] ./vendor1.js 27 bytes {0} [built]
-        single entry ./vendor1 [8] multi vendor
-    [4] ./vendor2.js 27 bytes {0} [built]
-        single entry ./vendor2 [8] multi vendor
-    [8] multi vendor 40 bytes {0} [built]
-chunk    {1} common.js (common) 56 bytes {0} [rendered]
-    [0] ./utility2.js 28 bytes {1} [built]
+common.js  453 bytes       0  [emitted]  common
+ pageA.js  586 bytes       1  [emitted]  pageA
+ pageC.js  368 bytes       2  [emitted]  pageC
+ pageB.js  368 bytes       3  [emitted]  pageB
+vendor.js     6.2 kB       4  [emitted]  vendor
+Entrypoint vendor = vendor.js
+Entrypoint pageA = vendor.js common.js pageA.js
+Entrypoint pageB = vendor.js common.js pageB.js
+Entrypoint pageC = vendor.js common.js pageC.js
+chunk    {0} common.js (common) 56 bytes {4} [initial] [rendered]
+    [0] ./utility2.js 28 bytes {0} [built]
         cjs require ./utility2 [5] ./pageA.js 2:15-36
         cjs require ./utility2 [6] ./pageB.js 1:15-36
         cjs require ./utility2 [7] ./pageC.js 1:15-36
-    [1] ./utility3.js 28 bytes {1} [built]
+    [1] ./utility3.js 28 bytes {0} [built]
         cjs require ./utility3 [6] ./pageB.js 2:15-36
         cjs require ./utility3 [7] ./pageC.js 2:15-36
-chunk    {2} pageA.js (pageA) 133 bytes {1} [rendered]
+chunk    {1} pageA.js (pageA) 130 bytes {0} [initial] [rendered]
     > pageA [5] ./pageA.js 
-    [2] ./utility1.js 28 bytes {2} [built]
+    [2] ./utility1.js 28 bytes {1} [built]
         cjs require ./utility1 [5] ./pageA.js 1:15-36
-    [5] ./pageA.js 105 bytes {2} [built]
-chunk    {3} pageC.js (pageC) 105 bytes {1} [rendered]
+    [5] ./pageA.js 102 bytes {1} [built]
+chunk    {2} pageC.js (pageC) 102 bytes {0} [initial] [rendered]
     > pageC [7] ./pageC.js 
-    [7] ./pageC.js 105 bytes {3} [built]
-chunk    {4} pageB.js (pageB) 105 bytes {1} [rendered]
+    [7] ./pageC.js 102 bytes {2} [built]
+chunk    {3} pageB.js (pageB) 102 bytes {0} [initial] [rendered]
     > pageB [6] ./pageB.js 
-    [6] ./pageB.js 105 bytes {4} [built]
+    [6] ./pageB.js 102 bytes {3} [built]
+chunk    {4} vendor.js (vendor) 94 bytes [entry] [rendered]
+    > vendor [8] multi vendor 
+    [3] ./vendor1.js 27 bytes {4} [built]
+        single entry ./vendor1 [8] multi vendor
+    [4] ./vendor2.js 27 bytes {4} [built]
+        single entry ./vendor2 [8] multi vendor
+    [8] multi vendor 40 bytes {4} [built]
 ```
 
 ## Minimized (uglify-js, no zip)
 
 ```
-Hash: ecc1460eefa0316fd425
-Version: webpack 2.0.6-beta
-Time: 255ms
+Hash: 811ddf3b9dbcf66e3362
+Version: webpack 2.1.0-beta.25
+Time: 295ms
     Asset       Size  Chunks             Chunk Names
-vendor.js    1.08 kB       0  [emitted]  vendor
-common.js   92 bytes       1  [emitted]  common
- pageA.js  109 bytes       2  [emitted]  pageA
- pageC.js   71 bytes       3  [emitted]  pageC
- pageB.js   71 bytes       4  [emitted]  pageB
-chunk    {0} vendor.js (vendor) 94 bytes [rendered]
-    > vendor [8] multi vendor 
-    [3] ./vendor1.js 27 bytes {0} [built]
-        single entry ./vendor1 [8] multi vendor
-    [4] ./vendor2.js 27 bytes {0} [built]
-        single entry ./vendor2 [8] multi vendor
-    [8] multi vendor 40 bytes {0} [built]
-chunk    {1} common.js (common) 56 bytes {0} [rendered]
-    [0] ./utility2.js 28 bytes {1} [built]
+common.js   92 bytes       0  [emitted]  common
+ pageA.js  109 bytes       1  [emitted]  pageA
+ pageC.js   71 bytes       2  [emitted]  pageC
+ pageB.js   71 bytes       3  [emitted]  pageB
+vendor.js    1.45 kB       4  [emitted]  vendor
+Entrypoint vendor = vendor.js
+Entrypoint pageA = vendor.js common.js pageA.js
+Entrypoint pageB = vendor.js common.js pageB.js
+Entrypoint pageC = vendor.js common.js pageC.js
+chunk    {0} common.js (common) 56 bytes {4} [initial] [rendered]
+    [0] ./utility2.js 28 bytes {0} [built]
         cjs require ./utility2 [5] ./pageA.js 2:15-36
         cjs require ./utility2 [6] ./pageB.js 1:15-36
         cjs require ./utility2 [7] ./pageC.js 1:15-36
-    [1] ./utility3.js 28 bytes {1} [built]
+    [1] ./utility3.js 28 bytes {0} [built]
         cjs require ./utility3 [6] ./pageB.js 2:15-36
         cjs require ./utility3 [7] ./pageC.js 2:15-36
-chunk    {2} pageA.js (pageA) 133 bytes {1} [rendered]
+chunk    {1} pageA.js (pageA) 130 bytes {0} [initial] [rendered]
     > pageA [5] ./pageA.js 
-    [2] ./utility1.js 28 bytes {2} [built]
+    [2] ./utility1.js 28 bytes {1} [built]
         cjs require ./utility1 [5] ./pageA.js 1:15-36
-    [5] ./pageA.js 105 bytes {2} [built]
-chunk    {3} pageC.js (pageC) 105 bytes {1} [rendered]
+    [5] ./pageA.js 102 bytes {1} [built]
+chunk    {2} pageC.js (pageC) 102 bytes {0} [initial] [rendered]
     > pageC [7] ./pageC.js 
-    [7] ./pageC.js 105 bytes {3} [built]
-chunk    {4} pageB.js (pageB) 105 bytes {1} [rendered]
+    [7] ./pageC.js 102 bytes {2} [built]
+chunk    {3} pageB.js (pageB) 102 bytes {0} [initial] [rendered]
     > pageB [6] ./pageB.js 
-    [6] ./pageB.js 105 bytes {4} [built]
-
-WARNING in pageA.js from UglifyJs
-Side effects in initialization of unused variable utility1 [./pageA.js:1,0]
-Side effects in initialization of unused variable utility2 [./pageA.js:2,0]
-
-WARNING in pageC.js from UglifyJs
-Side effects in initialization of unused variable utility2 [./pageC.js:1,0]
-Side effects in initialization of unused variable utility3 [./pageC.js:2,0]
-
-WARNING in pageB.js from UglifyJs
-Side effects in initialization of unused variable utility2 [./pageB.js:1,0]
-Side effects in initialization of unused variable utility3 [./pageB.js:2,0]
+    [6] ./pageB.js 102 bytes {3} [built]
+chunk    {4} vendor.js (vendor) 94 bytes [entry] [rendered]
+    > vendor [8] multi vendor 
+    [3] ./vendor1.js 27 bytes {4} [built]
+        single entry ./vendor1 [8] multi vendor
+    [4] ./vendor2.js 27 bytes {4} [built]
+        single entry ./vendor2 [8] multi vendor
+    [8] multi vendor 40 bytes {4} [built]
 ```

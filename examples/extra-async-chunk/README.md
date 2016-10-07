@@ -66,14 +66,15 @@ module.exports = {
 
 # js/output.js
 
+<details><summary>`/******/ (function(modules) { /* webpackBootstrap */ })`</summary>
 ``` javascript
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
 /******/ 	var parentJsonpFunction = window["webpackJsonp"];
-/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules, executeModule) {
+/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules, executeModules) {
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
-/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		var moduleId, chunkId, i = 0, resolves = [], result;
 /******/ 		for(;i < chunkIds.length; i++) {
 /******/ 			chunkId = chunkIds[i];
 /******/ 			if(installedChunks[chunkId])
@@ -81,9 +82,11 @@ module.exports = {
 /******/ 			installedChunks[chunkId] = 0;
 /******/ 		}
 /******/ 		for(moduleId in moreModules) {
-/******/ 			modules[moduleId] = moreModules[moduleId];
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
 /******/ 		}
-/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules);
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules, executeModules);
 /******/ 		while(resolves.length)
 /******/ 			resolves.shift()();
 
@@ -94,7 +97,7 @@ module.exports = {
 
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		1: 0
+/******/ 		3: 0
 /******/ 	};
 
 /******/ 	// The require function
@@ -106,16 +109,16 @@ module.exports = {
 
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
 /******/ 		};
 
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
 /******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
+/******/ 		module.l = true;
 
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -125,7 +128,7 @@ module.exports = {
 /******/ 	// The chunk loading function for additional chunks
 /******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
 /******/ 		if(installedChunks[chunkId] === 0)
-/******/ 			return Promise.resolve()
+/******/ 			return Promise.resolve();
 
 /******/ 		// an Promise means "currently loading".
 /******/ 		if(installedChunks[chunkId]) {
@@ -139,7 +142,7 @@ module.exports = {
 /******/ 		script.async = true;
 /******/ 		script.timeout = 120000;
 
-/******/ 		script.src = __webpack_require__.p + "" + chunkId + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + chunkId + ".output.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -166,32 +169,61 @@ module.exports = {
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 
+/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+
+/******/ 	// define getter function for harmory exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		Object.defineProperty(exports, name, {
+/******/ 			configurable: false,
+/******/ 			enumerable: true,
+/******/ 			get: getter
+/******/ 		});
+/******/ 	};
+
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "js/";
 
 /******/ 	// on error function for async loading
-/******/ 	__webpack_require__.oe = function(err) { throw err; };
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
+```
+</details>
+``` javascript
 /******/ ({
 
 /***/ 4:
+/* unknown exports provided */
+/* all exports used */
 /*!********************!*\
   !*** ./example.js ***!
   \********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// a chunks with a, b, c
-	Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(3)]).catch(function(err) { __webpack_require__.oe(err); }).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./a */ 0), __webpack_require__(/*! ./b */ 1), __webpack_require__(/*! ./c */ 2)]; (function(a, b, c) {}.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));});
+// a chunks with a, b, c
+Promise.all/* require */([__webpack_require__.e(0), __webpack_require__.e(2)]).catch(function(err) { __webpack_require__.oe(err); }).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ./a */ 0), __webpack_require__(/*! ./b */ 1), __webpack_require__(/*! ./c */ 2)]; (function(a, b, c) {}.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));});
 
-	// a chunk with a, b, d
-	Promise.all/* nsure */([__webpack_require__.e(0), __webpack_require__.e(2)]).catch(function(err) { __webpack_require__.oe(err); }).then(function(require) {
-		__webpack_require__(/*! ./b */ 1);
-		__webpack_require__(/*! ./d */ 3);
-	}.bind(null, __webpack_require__));
+// a chunk with a, b, d
+Promise.all/* nsure */([__webpack_require__.e(0), __webpack_require__.e(1)]).catch(function(err) { __webpack_require__.oe(err); }).then((function(require) {
+	__webpack_require__(/*! ./b */ 1);
+	__webpack_require__(/*! ./d */ 3);
+}).bind(null, __webpack_require__));
 
 
 /***/ }
@@ -199,61 +231,69 @@ module.exports = {
 /******/ });
 ```
 
-# js/0.js
+# js/0.output.js
 
 ``` javascript
 webpackJsonp([0],[
 /* 0 */
+/* unknown exports provided */
+/* all exports used */
 /*!**************!*\
   !*** ./a.js ***!
   \**************/
 /***/ function(module, exports) {
 
-	module.exports = "a";
+module.exports = "a";
 
 /***/ },
 /* 1 */
+/* unknown exports provided */
+/* all exports used */
 /*!**************!*\
   !*** ./b.js ***!
   \**************/
 /***/ function(module, exports) {
 
-	module.exports = "b";
+module.exports = "b";
 
 /***/ }
 ]);
 ```
 
-# js/2.js
+# js/1.output.js
 
 ``` javascript
-webpackJsonp([2],{
+webpackJsonp([1],{
 
 /***/ 3:
+/* unknown exports provided */
+/* all exports used */
 /*!**************!*\
   !*** ./d.js ***!
   \**************/
 /***/ function(module, exports) {
 
-	module.exports = "d";
+module.exports = "d";
 
 /***/ }
 
 });
 ```
 
-# js/3.js
+# js/2.output.js
 
 ``` javascript
-webpackJsonp([3],{
+webpackJsonp([2],{
 
 /***/ 2:
+/* unknown exports provided */
+/* all exports used */
 /*!**************!*\
   !*** ./c.js ***!
   \**************/
 /***/ function(module, exports) {
 
-	module.exports = "c";
+module.exports = "c";
 
 /***/ }
 
@@ -265,15 +305,16 @@ webpackJsonp([3],{
 ## Uncompressed
 
 ```
-Hash: 9143ea27ee1a62ea4b12
-Version: webpack 2.0.6-beta
-Time: 142ms
-    Asset       Size  Chunks             Chunk Names
-     0.js  291 bytes       0  [emitted]  
-output.js    4.92 kB       1  [emitted]  main
-     2.js  159 bytes       2  [emitted]  
-     3.js  159 bytes       3  [emitted]  
-chunk    {0} 0.js 42 bytes {1} [rendered]
+Hash: 2697c2e890ef9a735355
+Version: webpack 2.1.0-beta.25
+Time: 125ms
+      Asset       Size  Chunks             Chunk Names
+0.output.js  397 bytes       0  [emitted]  
+1.output.js  212 bytes       1  [emitted]  
+2.output.js  212 bytes       2  [emitted]  
+  output.js    6.13 kB       3  [emitted]  main
+Entrypoint main = output.js
+chunk    {0} 0.output.js 42 bytes {3} [rendered]
     > async commons [4] ./example.js 2:0-52
     > async commons [4] ./example.js 5:0-8:2
     [0] ./a.js 21 bytes {0} [built]
@@ -282,31 +323,32 @@ chunk    {0} 0.js 42 bytes {1} [rendered]
     [1] ./b.js 21 bytes {0} [built]
         amd require ./b [4] ./example.js 2:0-52
         cjs require ./b [4] ./example.js 6:1-15
-chunk    {1} output.js (main) 194 bytes [rendered]
-    > main [4] ./example.js 
-    [4] ./example.js 194 bytes {1} [built]
-chunk    {2} 2.js 21 bytes {1} [rendered]
+chunk    {1} 1.output.js 21 bytes {3} [rendered]
     > [4] ./example.js 5:0-8:2
-    [3] ./d.js 21 bytes {2} [built]
+    [3] ./d.js 21 bytes {1} [built]
         cjs require ./d [4] ./example.js 7:1-15
-chunk    {3} 3.js 21 bytes {1} [rendered]
+chunk    {2} 2.output.js 21 bytes {3} [rendered]
     > [4] ./example.js 2:0-52
-    [2] ./c.js 21 bytes {3} [built]
+    [2] ./c.js 21 bytes {2} [built]
         amd require ./c [4] ./example.js 2:0-52
+chunk    {3} output.js (main) 186 bytes [entry] [rendered]
+    > main [4] ./example.js 
+    [4] ./example.js 186 bytes {3} [built]
 ```
 
 ## Minimized (uglify-js, no zip)
 
 ```
-Hash: 9143ea27ee1a62ea4b12
-Version: webpack 2.0.6-beta
-Time: 175ms
-    Asset      Size  Chunks             Chunk Names
-     0.js  78 bytes       0  [emitted]  
-output.js    1.2 kB       1  [emitted]  main
-     2.js  51 bytes       2  [emitted]  
-     3.js  51 bytes       3  [emitted]  
-chunk    {0} 0.js 42 bytes {1} [rendered]
+Hash: 2697c2e890ef9a735355
+Version: webpack 2.1.0-beta.25
+Time: 279ms
+      Asset      Size  Chunks             Chunk Names
+0.output.js  78 bytes       0  [emitted]  
+1.output.js  51 bytes       1  [emitted]  
+2.output.js  51 bytes       2  [emitted]  
+  output.js   1.54 kB       3  [emitted]  main
+Entrypoint main = output.js
+chunk    {0} 0.output.js 42 bytes {3} [rendered]
     > async commons [4] ./example.js 2:0-52
     > async commons [4] ./example.js 5:0-8:2
     [0] ./a.js 21 bytes {0} [built]
@@ -315,15 +357,15 @@ chunk    {0} 0.js 42 bytes {1} [rendered]
     [1] ./b.js 21 bytes {0} [built]
         amd require ./b [4] ./example.js 2:0-52
         cjs require ./b [4] ./example.js 6:1-15
-chunk    {1} output.js (main) 194 bytes [rendered]
-    > main [4] ./example.js 
-    [4] ./example.js 194 bytes {1} [built]
-chunk    {2} 2.js 21 bytes {1} [rendered]
+chunk    {1} 1.output.js 21 bytes {3} [rendered]
     > [4] ./example.js 5:0-8:2
-    [3] ./d.js 21 bytes {2} [built]
+    [3] ./d.js 21 bytes {1} [built]
         cjs require ./d [4] ./example.js 7:1-15
-chunk    {3} 3.js 21 bytes {1} [rendered]
+chunk    {2} 2.output.js 21 bytes {3} [rendered]
     > [4] ./example.js 2:0-52
-    [2] ./c.js 21 bytes {3} [built]
+    [2] ./c.js 21 bytes {2} [built]
         amd require ./c [4] ./example.js 2:0-52
+chunk    {3} output.js (main) 186 bytes [entry] [rendered]
+    > main [4] ./example.js 
+    [4] ./example.js 186 bytes {3} [built]
 ```

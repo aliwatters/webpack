@@ -27,7 +27,7 @@ or packaging just about any resource or asset.
 
 **TL; DR**
 
-* Bundles both [CommonJs](http://www.commonjs.org/specs/modules/1.0/) and [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) modules (even combined).
+* Bundles both [CommonJS](http://wiki.commonjs.org/) and [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) modules (even combined).
 * Can create a single bundle or multiple chunks that are asynchronously loaded at runtime (to reduce initial loading time).
 * Dependencies are resolved during compilation reducing the runtime size.
 * Loaders can preprocess files while compiling, e.g. coffeescript to JavaScript, handlebars strings to compiled functions, images to Base64, etc.
@@ -45,7 +45,8 @@ project:
 
 global:
 `npm install webpack -g`
-Usage
+
+Usage:
 https://webpack.github.io/docs/tutorials/getting-started/
 
 # Examples
@@ -111,7 +112,7 @@ Please see [Using Loaders](https://webpack.github.io/docs/using-loaders.html) fo
 **styling**
 * [`style`](https://github.com/webpack/style-loader): Add exports of a module as style to DOM
 * [`css`](https://github.com/webpack/css-loader): Loads css file with resolved imports and returns css code
-* [`cssnext`](https://github.com/MoOx/cssnext-loader): Loads and compiles a css file using [cssnext](http://cssnext.io/)
+* [`postcss`](https://github.com/postcss/postcss-loader): Loads and compiles css using various [plugins](https://github.com/postcss/postcss#plugins)
 * [`less`](https://github.com/webpack/less-loader): Loads and compiles a less file
 * [`sass`](https://github.com/jtangelder/sass-loader): Loads and compiles a scss file
 * [`stylus`](https://github.com/shama/stylus-loader): Loads and compiles a stylus file
@@ -124,6 +125,7 @@ Please see [Using Loaders](https://webpack.github.io/docs/using-loaders.html) fo
 * [`jscs`](https://github.com/unindented/jscs-loader): PreLoader for style checking.
 * [`injectable`](https://github.com/jauco/webpack-injectable): Allow to inject dependencies into modules
 * [`transform`](https://github.com/webpack/transform-loader): Use browserify transforms as loader.
+* [`jsbeautify`](https://github.com/tomaszczechowski/jsbeautify-loader): Autoformatting code.
 
 For the full list of loaders, see [list of loaders](https://webpack.github.io/docs/list-of-loaders.html).
 
@@ -145,7 +147,7 @@ loaded asynchronously at runtime. This reduces the initial loading time.
 webpack can do many optimizations to **reduce the output size of your
 JavaScript** by deduplicating frequently used modules, minifying, and giving
 you full control of what is loaded initially and what is loaded at runtime
-through code splitting. It can also can make your code chunks **cache
+through code splitting. It can also make your code chunks **cache
 friendly** by using hashes.
 
 [Optimization documentation](https://webpack.github.io/docs/optimization.html)
@@ -157,7 +159,7 @@ friendly** by using hashes.
 // This means webpack takes modules with dependencies
 // and emits static assets representing those modules.
 
-// Dependencies can be written in CommonJs
+// Dependencies can be written in CommonJS
 var commonjs = require("./commonjs");
 // or in AMD
 define(["amd-module", "../file"], function (amdModule, file) {
@@ -253,7 +255,7 @@ MIT (http://opensource.org/licenses/mit-license.php)
 
 (In chronological order)
 
-* @google for [Google Web Toolkit (GWT)](https://code.google.com/archive/p/google-web-toolkit), which aims to compile Java to JavaScript. It features a similar [Code Splitting](https://code.google.com/archive/p/google-web-toolkit/wikis/CodeSplitting.wiki) as webpack.
+* @google for [Google Web Toolkit (GWT)](https://code.google.com/archive/p/google-web-toolkit), which aims to compile Java to JavaScript. It features a similar [Code Splitting](http://www.gwtproject.org/doc/latest/DevGuideCodeSplitting.html) as webpack.
 * @medikoo for [modules-webmake](https://github.com/medikoo/modules-webmake), which is a similar project. webpack was born because I wanted Code Splitting for modules-webpack. Interestingly the [Code Splitting issue is still open](https://github.com/medikoo/modules-webmake/issues/7) (thanks also to @Phoscur for the discussion).
 * @substack for [browserify](http://browserify.org/), which is a similar project and source for many ideas.
 * @jrburke for [require.js](http://requirejs.org/), which is a similar project and source for many ideas.
@@ -267,6 +269,8 @@ MIT (http://opensource.org/licenses/mit-license.php)
 ## Sponsor
 
 This is a free-time project. The time I invest in it fluctuates. If you use webpack for a serious task, and you'd like me to invest more time on it, please donate. This project increases your income/productivity too. It makes development and applications faster and it reduces the required bandwidth.
+
+Another way you can help fund Webpack is by buying the ebook ["SurviveJS - Webpack"](https://leanpub.com/survivejs-webpack), where around ~30% of the book's profit will go to me.
 
 I'm very thankful for every dollar. If you leave your username or email, I may show my thanks by giving you extra support.
 
@@ -285,7 +289,7 @@ I'm very thankful for every dollar. If you leave your username or email, I may s
 
 
 [travis-url]: https://travis-ci.org/webpack/webpack
-[travis-image]: https://img.shields.io/travis/webpack/webpack.svg
+[travis-image]: https://img.shields.io/travis/webpack/webpack/master.svg
 [appveyor-url]: https://ci.appveyor.com/project/sokra/webpack/branch/master
 [appveyor-image]: https://ci.appveyor.com/api/projects/status/github/webpack/webpack?svg=true
 [coveralls-url]: https://coveralls.io/r/webpack/webpack/

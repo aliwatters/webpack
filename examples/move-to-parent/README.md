@@ -83,20 +83,24 @@ module.exports = {
 ## Uncompressed
 
 ```
-Hash: eea5105c27290a4d0f9e
-Version: webpack 2.0.6-beta
-Time: 96ms
+Hash: db7e340b8115120a2cdc
+Version: webpack 2.1.0-beta.25
+Time: 173ms
           Asset       Size      Chunks             Chunk Names
-     0.chunk.js  567 bytes  0, 1, 2, 3  [emitted]  
-     1.chunk.js  430 bytes     1, 2, 3  [emitted]  
-     2.chunk.js  293 bytes        2, 3  [emitted]  
-     3.chunk.js  156 bytes           3  [emitted]  
-pageD.bundle.js    5.11 kB           4  [emitted]  pageD
-pageC.bundle.js    5.11 kB           5  [emitted]  pageC
-pageB.bundle.js    5.11 kB           6  [emitted]  pageB
-pageA.bundle.js    5.05 kB           7  [emitted]  pageA
+     0.chunk.js  779 bytes  0, 1, 2, 3  [emitted]  
+     1.chunk.js  589 bytes     1, 2, 3  [emitted]  
+     2.chunk.js  399 bytes        2, 3  [emitted]  
+     3.chunk.js  209 bytes           3  [emitted]  
+pageD.bundle.js    6.32 kB           4  [emitted]  pageD
+pageC.bundle.js    6.32 kB           5  [emitted]  pageC
+pageB.bundle.js    6.32 kB           6  [emitted]  pageB
+pageA.bundle.js    6.25 kB           7  [emitted]  pageA
+Entrypoint pageA = pageA.bundle.js
+Entrypoint pageB = pageB.bundle.js
+Entrypoint pageC = pageC.bundle.js
+Entrypoint pageD = pageD.bundle.js
 chunk    {0} 0.chunk.js 84 bytes {7} {6} {5} {4} [rendered]
-    > [4] ./page.js?A 4:0-37
+    > duplicate [4] ./page.js?A 4:0-37
     > duplicate [5] ./page.js?B 4:0-37
     > duplicate [6] ./page.js?C 4:0-37
     > duplicate [7] ./page.js?D 4:0-37
@@ -105,7 +109,7 @@ chunk    {0} 0.chunk.js 84 bytes {7} {6} {5} {4} [rendered]
     [2] ./c.js 21 bytes {0} {1} [built]
     [3] ./d.js 21 bytes {0} [built]
 chunk    {1} 1.chunk.js 63 bytes {7} {6} {5} {4} [rendered]
-    > [4] ./page.js?A 3:0-30
+    > duplicate [4] ./page.js?A 3:0-30
     > duplicate [5] ./page.js?B 3:0-30
     > duplicate [6] ./page.js?C 3:0-30
     > duplicate [7] ./page.js?D 3:0-30
@@ -113,49 +117,53 @@ chunk    {1} 1.chunk.js 63 bytes {7} {6} {5} {4} [rendered]
     [1] ./b.js 21 bytes {0} {1} {2} [built]
     [2] ./c.js 21 bytes {0} {1} [built]
 chunk    {2} 2.chunk.js 42 bytes {7} {6} {5} {4} [rendered]
-    > [4] ./page.js?A 2:0-23
+    > duplicate [4] ./page.js?A 2:0-23
     > duplicate [5] ./page.js?B 2:0-23
     > duplicate [6] ./page.js?C 2:0-23
     > duplicate [7] ./page.js?D 2:0-23
     [0] ./a.js 21 bytes {0} {1} {2} {3} [built]
     [1] ./b.js 21 bytes {0} {1} {2} [built]
 chunk    {3} 3.chunk.js 21 bytes {7} {6} {5} {4} [rendered]
-    > [4] ./page.js?A 1:0-16
+    > duplicate [4] ./page.js?A 1:0-16
     > duplicate [5] ./page.js?B 1:0-16
     > duplicate [6] ./page.js?C 1:0-16
     > duplicate [7] ./page.js?D 1:0-16
     [0] ./a.js 21 bytes {0} {1} {2} {3} [built]
-chunk    {4} pageD.bundle.js (pageD) 118 bytes [rendered]
+chunk    {4} pageD.bundle.js (pageD) 114 bytes [entry] [rendered]
     > pageD [7] ./page.js?D 
-    [7] ./page.js?D 118 bytes {4} [built]
-chunk    {5} pageC.bundle.js (pageC) 118 bytes [rendered]
+    [7] ./page.js?D 114 bytes {4} [built]
+chunk    {5} pageC.bundle.js (pageC) 114 bytes [entry] [rendered]
     > pageC [6] ./page.js?C 
-    [6] ./page.js?C 118 bytes {5} [built]
-chunk    {6} pageB.bundle.js (pageB) 118 bytes [rendered]
+    [6] ./page.js?C 114 bytes {5} [built]
+chunk    {6} pageB.bundle.js (pageB) 114 bytes [entry] [rendered]
     > pageB [5] ./page.js?B 
-    [5] ./page.js?B 118 bytes {6} [built]
-chunk    {7} pageA.bundle.js (pageA) 118 bytes [rendered]
+    [5] ./page.js?B 114 bytes {6} [built]
+chunk    {7} pageA.bundle.js (pageA) 114 bytes [entry] [rendered]
     > pageA [4] ./page.js?A 
-    [4] ./page.js?A 118 bytes {7} [built]
+    [4] ./page.js?A 114 bytes {7} [built]
 ```
 
 ## Minimized (uglify-js, no zip)
 
 ```
-Hash: eea5105c27290a4d0f9e
-Version: webpack 2.0.6-beta
-Time: 283ms
+Hash: db7e340b8115120a2cdc
+Version: webpack 2.1.0-beta.25
+Time: 466ms
           Asset       Size      Chunks             Chunk Names
      0.chunk.js  142 bytes  0, 1, 2, 3  [emitted]  
      1.chunk.js  111 bytes     1, 2, 3  [emitted]  
      2.chunk.js   80 bytes        2, 3  [emitted]  
      3.chunk.js   49 bytes           3  [emitted]  
-pageD.bundle.js    1.25 kB           4  [emitted]  pageD
-pageC.bundle.js    1.25 kB           5  [emitted]  pageC
-pageB.bundle.js    1.25 kB           6  [emitted]  pageB
-pageA.bundle.js    1.25 kB           7  [emitted]  pageA
+pageD.bundle.js    1.58 kB           4  [emitted]  pageD
+pageC.bundle.js    1.58 kB           5  [emitted]  pageC
+pageB.bundle.js    1.58 kB           6  [emitted]  pageB
+pageA.bundle.js    1.58 kB           7  [emitted]  pageA
+Entrypoint pageA = pageA.bundle.js
+Entrypoint pageB = pageB.bundle.js
+Entrypoint pageC = pageC.bundle.js
+Entrypoint pageD = pageD.bundle.js
 chunk    {0} 0.chunk.js 84 bytes {7} {6} {5} {4} [rendered]
-    > [4] ./page.js?A 4:0-37
+    > duplicate [4] ./page.js?A 4:0-37
     > duplicate [5] ./page.js?B 4:0-37
     > duplicate [6] ./page.js?C 4:0-37
     > duplicate [7] ./page.js?D 4:0-37
@@ -164,7 +172,7 @@ chunk    {0} 0.chunk.js 84 bytes {7} {6} {5} {4} [rendered]
     [2] ./c.js 21 bytes {0} {1} [built]
     [3] ./d.js 21 bytes {0} [built]
 chunk    {1} 1.chunk.js 63 bytes {7} {6} {5} {4} [rendered]
-    > [4] ./page.js?A 3:0-30
+    > duplicate [4] ./page.js?A 3:0-30
     > duplicate [5] ./page.js?B 3:0-30
     > duplicate [6] ./page.js?C 3:0-30
     > duplicate [7] ./page.js?D 3:0-30
@@ -172,28 +180,28 @@ chunk    {1} 1.chunk.js 63 bytes {7} {6} {5} {4} [rendered]
     [1] ./b.js 21 bytes {0} {1} {2} [built]
     [2] ./c.js 21 bytes {0} {1} [built]
 chunk    {2} 2.chunk.js 42 bytes {7} {6} {5} {4} [rendered]
-    > [4] ./page.js?A 2:0-23
+    > duplicate [4] ./page.js?A 2:0-23
     > duplicate [5] ./page.js?B 2:0-23
     > duplicate [6] ./page.js?C 2:0-23
     > duplicate [7] ./page.js?D 2:0-23
     [0] ./a.js 21 bytes {0} {1} {2} {3} [built]
     [1] ./b.js 21 bytes {0} {1} {2} [built]
 chunk    {3} 3.chunk.js 21 bytes {7} {6} {5} {4} [rendered]
-    > [4] ./page.js?A 1:0-16
+    > duplicate [4] ./page.js?A 1:0-16
     > duplicate [5] ./page.js?B 1:0-16
     > duplicate [6] ./page.js?C 1:0-16
     > duplicate [7] ./page.js?D 1:0-16
     [0] ./a.js 21 bytes {0} {1} {2} {3} [built]
-chunk    {4} pageD.bundle.js (pageD) 118 bytes [rendered]
+chunk    {4} pageD.bundle.js (pageD) 114 bytes [entry] [rendered]
     > pageD [7] ./page.js?D 
-    [7] ./page.js?D 118 bytes {4} [built]
-chunk    {5} pageC.bundle.js (pageC) 118 bytes [rendered]
+    [7] ./page.js?D 114 bytes {4} [built]
+chunk    {5} pageC.bundle.js (pageC) 114 bytes [entry] [rendered]
     > pageC [6] ./page.js?C 
-    [6] ./page.js?C 118 bytes {5} [built]
-chunk    {6} pageB.bundle.js (pageB) 118 bytes [rendered]
+    [6] ./page.js?C 114 bytes {5} [built]
+chunk    {6} pageB.bundle.js (pageB) 114 bytes [entry] [rendered]
     > pageB [5] ./page.js?B 
-    [5] ./page.js?B 118 bytes {6} [built]
-chunk    {7} pageA.bundle.js (pageA) 118 bytes [rendered]
+    [5] ./page.js?B 114 bytes {6} [built]
+chunk    {7} pageA.bundle.js (pageA) 114 bytes [entry] [rendered]
     > pageA [4] ./page.js?A 
-    [4] ./page.js?A 118 bytes {7} [built]
+    [4] ./page.js?A 114 bytes {7} [built]
 ```

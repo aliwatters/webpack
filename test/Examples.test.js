@@ -13,6 +13,7 @@ describe("Examples", function() {
 
 	examples.forEach(function(examplePath) {
 		it("should compile " + path.basename(examplePath), function(done) {
+			this.timeout(20000);
 			var options = {};
 			var webpackConfigPath = path.join(examplePath, "webpack.config.js");
 			webpackConfigPath = webpackConfigPath.substr(0, 1).toUpperCase() + webpackConfigPath.substr(1);
@@ -25,9 +26,8 @@ describe("Examples", function() {
 
 			function processOptions(options) {
 				options.context = examplePath;
-				options.optimize = options.optimize || {};
 				options.output = options.output || {};
-				options.output.pathInfo = true;
+				options.output.pathinfo = true;
 				options.output.path = path.join(examplePath, "js");
 				options.output.publicPath = "js/";
 				if(!options.output.filename)

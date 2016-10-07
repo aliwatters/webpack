@@ -19,9 +19,23 @@ describe("Parser", function() {
 				cdeabc: ["membertest"]
 			}
 		],
+		"call member using bracket notation": [
+			function() {
+				cde["abc"]("membertest");
+			}, {
+				cdeabc: ["membertest"]
+			}
+		],
 		"call inner member": [
 			function() {
 				cde.ddd.abc("inner");
+			}, {
+				cdedddabc: ["inner"]
+			}
+		],
+		"call inner member using bracket notation": [
+			function() {
+				cde.ddd["abc"]("inner");
 			}, {
 				cdedddabc: ["inner"]
 			}
@@ -186,6 +200,34 @@ describe("Parser", function() {
 		});
 	});
 
+	it("should parse comments", function() {
+		var source = "//comment1\n/*comment2*/";
+		var state = [{
+			type: 'Line',
+			value: 'comment1'
+		}, {
+			type: 'Block',
+			value: 'comment2'
+		}];
+
+		var testParser = new Parser({});
+
+		testParser.plugin("program", function(ast, comments) {
+			if(!this.state.comments) this.state.comments = comments;
+			return true;
+		});
+
+		var actual = testParser.parse(source);
+		should.strictEqual(typeof actual, "object");
+		should.strictEqual(typeof actual.comments, "object");
+		actual.comments.forEach(function(element, index) {
+			should.strictEqual(typeof element.type, "string");
+			should.strictEqual(typeof element.value, "string");
+			element.type.should.be.eql(state[index].type);
+			element.value.should.be.eql(state[index].value);
+		});
+	});
+
 	describe("expression evaluation", function() {
 		function evaluateInParser(source) {
 			var parser = new Parser();
@@ -227,10 +269,13 @@ describe("Parser", function() {
 			"typeof 'str'": "string=string",
 			"typeof aString": "string=string",
 			"typeof b.Number": "string=number",
+			"typeof b['Number']": "string=number",
 			"typeof b[Number]": "",
 			"b.Number": "number=123",
+			"b['Number']": "number=123",
 			"b[Number]": "",
 			"'abc'.substr(1)": "string=bc",
+			"'abc'[\"substr\"](1)": "string=bc",
 			"'abc'[substr](1)": "",
 		};
 

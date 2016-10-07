@@ -21,6 +21,7 @@ var yargs = require("yargs")
 require("./config-yargs")(yargs);
 
 var DISPLAY_GROUP = "Stats options:";
+var BASIC_GROUP = "Basic options:";
 
 yargs.options({
 	"json": {
@@ -28,8 +29,17 @@ yargs.options({
 		alias: "j",
 		describe: "Prints the result as JSON."
 	},
+	"progress": {
+		type: "boolean",
+		describe: "Print compilation progress in percentage",
+		group: BASIC_GROUP
+	},
 	"color": {
 		type: "boolean",
+		alias: "colors",
+		default: function supportsColor() {
+			return require("supports-color");
+		},
 		group: DISPLAY_GROUP,
 		describe: "Enables/Disables colors on the console"
 	},
@@ -68,6 +78,11 @@ yargs.options({
 		group: DISPLAY_GROUP,
 		describe: "Display chunks in the output"
 	},
+	"display-entrypoints": {
+		type: "boolean",
+		group: DISPLAY_GROUP,
+		describe: "Display entry points in the output"
+	},
 	"display-origins": {
 		type: "boolean",
 		group: DISPLAY_GROUP,
@@ -88,6 +103,16 @@ yargs.options({
 		group: DISPLAY_GROUP,
 		describe: "Display reasons about module inclusion in the output"
 	},
+	"display-used-exports": {
+		type: "boolean",
+		group: DISPLAY_GROUP,
+		describe: "Display information about used exports in modules (Tree Shaking)"
+	},
+	"display-provided-exports": {
+		type: "boolean",
+		group: DISPLAY_GROUP,
+		describe: "Display information about exports provided from modules"
+	},
 	"display-error-details": {
 		type: "boolean",
 		group: DISPLAY_GROUP,
@@ -96,7 +121,6 @@ yargs.options({
 	"verbose": {
 		type: "boolean",
 		group: DISPLAY_GROUP,
-		alias: "v",
 		describe: "Show more details"
 	}
 });
@@ -105,6 +129,9 @@ var argv = yargs.argv;
 
 if(argv.verbose) {
 	argv["display-reasons"] = true;
+	argv["display-entrypoints"] = true;
+	argv["display-used-exports"] = true;
+	argv["display-provided-exports"] = true;
 	argv["display-error-details"] = true;
 	argv["display-modules"] = true;
 	argv["display-cached"] = true;
@@ -133,7 +160,12 @@ function processOptions(options) {
 		return;
 	}
 
-	var firstOptions = Array.isArray(options) ? options[0] : options;
+	var firstOptions = Array.isArray(options) ? (options[0] || {}) : options;
+
+	if(typeof options.stats === "boolean" || typeof options.stats === "string") {
+		var statsPresetToOptions = require("../lib/Stats.js").presetToOptions;
+		options.stats = statsPresetToOptions(options.stats);
+	}
 
 	var outputOptions = Object.create(options.stats || firstOptions.stats || {});
 	if(typeof outputOptions.context === "undefined")
@@ -174,8 +206,20 @@ function processOptions(options) {
 			outputOptions.chunks = bool;
 		});
 
+		ifArg("display-entrypoints", function(bool) {
+			outputOptions.entrypoints = bool;
+		});
+
 		ifArg("display-reasons", function(bool) {
 			outputOptions.reasons = bool;
+		});
+
+		ifArg("display-used-exports", function(bool) {
+			outputOptions.usedExports = bool;
+		});
+
+		ifArg("display-provided-exports", function(bool) {
+			outputOptions.providedExports = bool;
 		});
 
 		ifArg("display-error-details", function(bool) {
@@ -201,6 +245,8 @@ function processOptions(options) {
 	} else {
 		if(typeof outputOptions.chunks === "undefined")
 			outputOptions.chunks = true;
+		if(typeof outputOptions.entrypoints === "undefined")
+			outputOptions.entrypoints = true;
 		if(typeof outputOptions.modules === "undefined")
 			outputOptions.modules = true;
 		if(typeof outputOptions.chunkModules === "undefined")
@@ -224,7 +270,20 @@ function processOptions(options) {
 
 	Error.stackTraceLimit = 30;
 	var lastHash = null;
-	var compiler = webpack(options);
+	var compiler;
+	try {
+		compiler = webpack(options);
+	} catch(e) {
+		var WebpackOptionsValidationError = require("../lib/WebpackOptionsValidationError");
+		if(e instanceof WebpackOptionsValidationError) {
+			if(argv.color)
+				console.error("\u001b[1m\u001b[31m" + e.message + "\u001b[39m\u001b[22m");
+			else
+				console.error(e.message);
+			process.exit(1);
+		}
+		throw e;
+	}
 
 	if(argv.progress) {
 		var ProgressPlugin = require("../lib/ProgressPlugin");
@@ -271,6 +330,7 @@ function processOptions(options) {
 			process.stdin.resume();
 		}
 		compiler.watch(watchOptions, compilerCallback);
+		console.log('\nWebpack is watching the files…\n');
 	} else
 		compiler.run(compilerCallback);
 

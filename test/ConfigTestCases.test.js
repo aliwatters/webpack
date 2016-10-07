@@ -5,6 +5,7 @@ var vm = require("vm");
 var Test = require("mocha/lib/test");
 var checkArrayExpectation = require("./checkArrayExpectation");
 
+var Stats = require("../lib/Stats");
 var webpack = require("../lib/webpack");
 
 describe("ConfigTestCases", function() {
@@ -23,7 +24,7 @@ describe("ConfigTestCases", function() {
 			category.tests.forEach(function(testName) {
 				var suite = describe(testName, function() {});
 				it(testName + " should compile", function(done) {
-					this.timeout(10000);
+					this.timeout(30000);
 					var testDirectory = path.join(casesPath, category.name, testName);
 					var outputDirectory = path.join(__dirname, "js", "config", category.name, testName);
 					var options = require(path.join(testDirectory, "webpack.config.js"));
@@ -34,15 +35,15 @@ describe("ConfigTestCases", function() {
 						if(!options.target) options.target = "async-node";
 						if(!options.output) options.output = {};
 						if(!options.output.path) options.output.path = outputDirectory;
+						if(typeof options.output.pathinfo === "undefined") options.output.pathinfo = true;
 						if(!options.output.filename) options.output.filename = "bundle" + idx + ".js";
 						if(!options.output.chunkFilename) options.output.chunkFilename = "[id].bundle" + idx + ".js";
 					});
 					webpack(options, function(err, stats) {
 						if(err) return done(err);
-						fs.writeFileSync(path.join(outputDirectory, "stats.txt"), stats.toString({
-							reasons: true,
-							errorDetails: true
-						}), "utf-8");
+						var statOptions = Stats.presetToOptions("verbose");
+						statOptions.colors = false;
+						fs.writeFileSync(path.join(outputDirectory, "stats.txt"), stats.toString(statOptions), "utf-8");
 						var jsonStats = stats.toJson({
 							errorDetails: true
 						});
@@ -57,20 +58,36 @@ describe("ConfigTestCases", function() {
 							return test;
 						}
 
-						function _require(module) {
-							if(/^\.\.?\//.test(module)) {
-								var p = path.join(outputDirectory, module);
+						var globalContext = {
+							console: console
+						};
+
+						function _require(currentDirectory, module) {
+							if(Array.isArray(module) || /^\.\.?\//.test(module)) {
 								var fn;
-								if(options.target === "web") {
-									fn = vm.runInNewContext("(function(require, module, exports, __dirname, __filename, it) {" + fs.readFileSync(p, "utf-8") + "\n})", {}, p);
+								var content;
+								if(Array.isArray(module)) {
+									var p = path.join(currentDirectory, module[0]);
+									content = module.map(function(p) {
+										var p = path.join(currentDirectory, p);
+										return fs.readFileSync(p, "utf-8");
+									}).join("\n");
 								} else {
-									fn = vm.runInThisContext("(function(require, module, exports, __dirname, __filename, it) {" + fs.readFileSync(p, "utf-8") + "\n})", p);
+									var p = path.join(currentDirectory, module);
+									content = fs.readFileSync(p, "utf-8");
+								}
+								if(options.target === "web") {
+									fn = vm.runInNewContext("(function(require, module, exports, __dirname, __filename, it, window) {" + content + "\n})", globalContext, p);
+								} else {
+									fn = vm.runInThisContext("(function(require, module, exports, __dirname, __filename, it) {" + content + "\n})", p);
 								}
 								var module = {
 									exports: {}
 								};
-								fn.call(module.exports, _require, module, module.exports, outputDirectory, p, _it);
+								fn.call(module.exports, _require.bind(null, path.dirname(p)), module, module.exports, path.dirname(p), p, _it, globalContext);
 								return module.exports;
+							} else if(testConfig.modules && module in testConfig.modules) {
+								return testConfig.modules[module];
 							} else return require(module);
 						}
 						var filesCount = 0;
@@ -91,7 +108,7 @@ describe("ConfigTestCases", function() {
 							var bundlePath = testConfig.findBundle(i, optionsArr[i]);
 							if(bundlePath) {
 								filesCount++;
-								_require(bundlePath);
+								_require(outputDirectory, bundlePath);
 							}
 						}
 						// give a free pass to compilation that generated an error

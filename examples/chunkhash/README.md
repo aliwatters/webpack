@@ -62,7 +62,7 @@ module.exports = {
 
 <!-- inlined minimized file "manifest.[chunkhash].js" -->
 <script>
-!function(e){function r(o){if(n[o])return n[o].exports;var t=n[o]={exports:{},id:o,loaded:!1};return e[o].call(t.exports,t,t.exports,r),t.loaded=!0,t.exports}var o=window.webpackJsonp;window.webpackJsonp=function(n,a,c){for(var i,d,f=0,u=[];f<n.length;f++)d=n[f],t[d]&&u.push(t[d][0]),t[d]=0;for(i in a)e[i]=a[i];for(o&&o(n,a);u.length;)u.shift()();return c+1?r(c):void 0};var n={},t={2:0};r.e=function(e){function o(){a.onerror=a.onload=null,clearTimeout(c);var r=t[e];0!==r&&(r&&r[1](new Error("Loading chunk "+e+" failed.")),t[e]=void 0)}if(0===t[e])return Promise.resolve();if(t[e])return t[e][2];var n=document.getElementsByTagName("head")[0],a=document.createElement("script");a.type="text/javascript",a.charset="utf-8",a.async=!0,a.timeout=12e4,a.src=r.p+""+{0:"27ffa809c94fb1e509c5",1:"8925d45ed07a265d4246",3:"f2764945b8b62e30c662",4:"bcb99dbc93c7f755b2df"}[e]+".js";var c=setTimeout(o,12e4);a.onerror=a.onload=o,n.appendChild(a);var i=new Promise(function(r,o){t[e]=[r,o]});return t[e][2]=i},r.m=e,r.c=n,r.p="js/",r.oe=function(e){throw e}}([]);
+!function(e){function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}var n=window.webpackJsonp;window.webpackJsonp=function(t,a,c){for(var u,i,f,l=0,s=[];l<t.length;l++)i=t[l],o[i]&&s.push(o[i][0]),o[i]=0;for(u in a)Object.prototype.hasOwnProperty.call(a,u)&&(e[u]=a[u]);for(n&&n(t,a,c);s.length;)s.shift()();if(c)for(l=0;l<c.length;l++)f=r(r.s=c[l]);return f};var t={},o={4:0};r.e=function(e){function n(){a.onerror=a.onload=null,clearTimeout(c);var r=o[e];0!==r&&(r&&r[1](new Error("Loading chunk "+e+" failed.")),o[e]=void 0)}if(0===o[e])return Promise.resolve();if(o[e])return o[e][2];var t=document.getElementsByTagName("head")[0],a=document.createElement("script");a.type="text/javascript",a.charset="utf-8",a.async=!0,a.timeout=12e4,a.src=r.p+""+{0:"ecd2b16a48d8b92daf31",1:"3ab6307df46b05a2e3c3",2:"af804db11849c698ecbd",3:"9b0423f36b542b42b6a3"}[e]+".js";var c=setTimeout(n,12e4);a.onerror=a.onload=n,t.appendChild(a);var u=new Promise(function(r,n){o[e]=[r,n]});return o[e][2]=u},r.m=e,r.c=t,r.i=function(e){return e},r.d=function(e,r,n){Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:n})},r.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(n,"a",n),n},r.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},r.p="js/",r.oe=function(e){throw console.error(e),e}}([]);
 </script>
 
 <!-- optional when using the CommonChunkPlugin for vendor modules -->
@@ -77,15 +77,18 @@ module.exports = {
 # js/common.[chunkhash].js
 
 ``` javascript
-webpackJsonp([3,2],[
+webpackJsonp([2,4],[
 /* 0 */
+/* exports provided: default */
+/* all exports used */
 /*!*******************!*\
   !*** ./vendor.js ***!
   \*******************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// some vendor lib (should be in common chunk)
-	/* harmony default export */ exports["default"] = 123
+"use strict";
+// some vendor lib (should be in common chunk)
+/* harmony default export */ exports["default"] = 123;
 
 
 /***/ },
@@ -93,12 +96,14 @@ webpackJsonp([3,2],[
 /* 2 */,
 /* 3 */,
 /* 4 */
+/* unknown exports provided */
+/* all exports used */
 /*!********************!*\
   !*** multi common ***!
   \********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(/*! ./vendor */0);
+module.exports = __webpack_require__(/*! ./vendor */0);
 
 
 /***/ }
@@ -108,19 +113,22 @@ webpackJsonp([3,2],[
 # js/main.[chunkhash].js
 
 ``` javascript
-webpackJsonp([4,2],{
+webpackJsonp([3,4],{
 
 /***/ 3:
+/* unknown exports provided */
+/* all exports used */
 /*!********************!*\
   !*** ./example.js ***!
   \********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vendor__ = __webpack_require__(/*! ./vendor */ 0);
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vendor__ = __webpack_require__(/*! ./vendor */ 0);
 
-	// some module
-	__webpack_require__.e/* System.import */(1).then(__webpack_require__.bind(null, /*! ./async1 */ 1));
-	__webpack_require__.e/* System.import */(0).then(__webpack_require__.bind(null, /*! ./async2 */ 2));
+// some module
+__webpack_require__.e/* System.import */(1).then(__webpack_require__.bind(null, /*! ./async1 */ 1));
+__webpack_require__.e/* System.import */(0).then(__webpack_require__.bind(null, /*! ./async2 */ 2));
 
 
 /***/ }
@@ -133,63 +141,69 @@ webpackJsonp([4,2],{
 ## Uncompressed
 
 ```
-Hash: e8b4a7834dca40744042
-Version: webpack 2.0.6-beta
-Time: 118ms
+Hash: 02d122739ca3698772e8
+Version: webpack 2.1.0-beta.25
+Time: 121ms
                   Asset       Size  Chunks             Chunk Names
-27ffa809c94fb1e509c5.js  184 bytes    0, 2  [emitted]  
-8925d45ed07a265d4246.js  190 bytes    1, 2  [emitted]  
-  manifest.chunkhash.js     4.2 kB       2  [emitted]  manifest
-    common.chunkhash.js  517 bytes    3, 2  [emitted]  common
-      main.chunkhash.js  513 bytes    4, 2  [emitted]  main
-chunk    {0} 27ffa809c94fb1e509c5.js 29 bytes {4} [rendered]
+ecd2b16a48d8b92daf31.js  236 bytes    0, 4  [emitted]  
+3ab6307df46b05a2e3c3.js  242 bytes    1, 4  [emitted]  
+    common.chunkhash.js  636 bytes    2, 4  [emitted]  common
+      main.chunkhash.js  573 bytes    3, 4  [emitted]  main
+  manifest.chunkhash.js    5.45 kB       4  [emitted]  manifest
+Entrypoint main = manifest.chunkhash.js common.chunkhash.js main.chunkhash.js
+Entrypoint common = manifest.chunkhash.js common.chunkhash.js
+chunk    {0} ecd2b16a48d8b92daf31.js 28 bytes {3} [rendered]
     > [3] ./example.js 4:0-25
-    [2] ./async2.js 29 bytes {0} [built]
+    [2] ./async2.js 28 bytes {0} [built]
         System.import ./async2 [3] ./example.js 4:0-25
-chunk    {1} 8925d45ed07a265d4246.js 29 bytes {4} [rendered]
+chunk    {1} 3ab6307df46b05a2e3c3.js 28 bytes {3} [rendered]
     > [3] ./example.js 3:0-25
-    [1] ./async1.js 29 bytes {1} [built]
+    [1] ./async1.js 28 bytes {1} [built]
         System.import ./async1 [3] ./example.js 3:0-25
-chunk    {2} manifest.chunkhash.js (manifest) 0 bytes [rendered]
-chunk    {3} common.chunkhash.js (common) 97 bytes {2} [rendered]
+chunk    {2} common.chunkhash.js (common) 95 bytes {4} [initial] [rendered]
     > common [4] multi common 
-    [0] ./vendor.js 69 bytes {3} [built]
+    [0] ./vendor.js 67 bytes {2} [built]
+        [exports: default]
         harmony import ./vendor [3] ./example.js 1:0-30
         single entry ./vendor [4] multi common
-    [4] multi common 28 bytes {3} [built]
-chunk    {4} main.chunkhash.js (main) 104 bytes {3} [rendered]
+    [4] multi common 28 bytes {2} [built]
+chunk    {3} main.chunkhash.js (main) 100 bytes {2} [initial] [rendered]
     > main [3] ./example.js 
-    [3] ./example.js 104 bytes {4} [built]
+    [3] ./example.js 100 bytes {3} [built]
+chunk    {4} manifest.chunkhash.js (manifest) 0 bytes [entry] [rendered]
 ```
 
 ## Minimized (uglify-js, no zip)
 
 ```
-Hash: e8b4a7834dca40744042
-Version: webpack 2.0.6-beta
-Time: 176ms
+Hash: 02d122739ca3698772e8
+Version: webpack 2.1.0-beta.25
+Time: 278ms
                   Asset       Size  Chunks             Chunk Names
-27ffa809c94fb1e509c5.js   40 bytes    0, 2  [emitted]  
-8925d45ed07a265d4246.js   39 bytes    1, 2  [emitted]  
-  manifest.chunkhash.js    1.05 kB       2  [emitted]  manifest
-    common.chunkhash.js   95 bytes    3, 2  [emitted]  common
-      main.chunkhash.js  106 bytes    4, 2  [emitted]  main
-chunk    {0} 27ffa809c94fb1e509c5.js 29 bytes {4} [rendered]
+ecd2b16a48d8b92daf31.js   40 bytes    0, 4  [emitted]  
+3ab6307df46b05a2e3c3.js   39 bytes    1, 4  [emitted]  
+    common.chunkhash.js  105 bytes    2, 4  [emitted]  common
+      main.chunkhash.js  119 bytes    3, 4  [emitted]  main
+  manifest.chunkhash.js    1.43 kB       4  [emitted]  manifest
+Entrypoint main = manifest.chunkhash.js common.chunkhash.js main.chunkhash.js
+Entrypoint common = manifest.chunkhash.js common.chunkhash.js
+chunk    {0} ecd2b16a48d8b92daf31.js 28 bytes {3} [rendered]
     > [3] ./example.js 4:0-25
-    [2] ./async2.js 29 bytes {0} [built]
+    [2] ./async2.js 28 bytes {0} [built]
         System.import ./async2 [3] ./example.js 4:0-25
-chunk    {1} 8925d45ed07a265d4246.js 29 bytes {4} [rendered]
+chunk    {1} 3ab6307df46b05a2e3c3.js 28 bytes {3} [rendered]
     > [3] ./example.js 3:0-25
-    [1] ./async1.js 29 bytes {1} [built]
+    [1] ./async1.js 28 bytes {1} [built]
         System.import ./async1 [3] ./example.js 3:0-25
-chunk    {2} manifest.chunkhash.js (manifest) 0 bytes [rendered]
-chunk    {3} common.chunkhash.js (common) 97 bytes {2} [rendered]
+chunk    {2} common.chunkhash.js (common) 95 bytes {4} [initial] [rendered]
     > common [4] multi common 
-    [0] ./vendor.js 69 bytes {3} [built]
+    [0] ./vendor.js 67 bytes {2} [built]
+        [exports: default]
         harmony import ./vendor [3] ./example.js 1:0-30
         single entry ./vendor [4] multi common
-    [4] multi common 28 bytes {3} [built]
-chunk    {4} main.chunkhash.js (main) 104 bytes {3} [rendered]
+    [4] multi common 28 bytes {2} [built]
+chunk    {3} main.chunkhash.js (main) 100 bytes {2} [initial] [rendered]
     > main [3] ./example.js 
-    [3] ./example.js 104 bytes {4} [built]
+    [3] ./example.js 100 bytes {3} [built]
+chunk    {4} manifest.chunkhash.js (manifest) 0 bytes [entry] [rendered]
 ```

@@ -22,6 +22,12 @@ module.exports = function(yargs) {
 				describe: "Enviroment passed to the config, when it is a function",
 				group: CONFIG_GROUP
 			},
+			"version": {
+				type: "string",
+				describe: "Webpack version",
+				alias: "v",
+				group: BASIC_GROUP,
+			},
 			"context": {
 				type: "string",
 				describe: "The root directory for resolving entry point and stats",
@@ -184,14 +190,15 @@ module.exports = function(yargs) {
 				group: BASIC_GROUP,
 				requiresArg: true
 			},
-			"progress": {
-				type: "boolean",
-				describe: "Print compilation progress in percentage",
-				group: BASIC_GROUP
-			},
 			"resolve-alias": {
 				type: "string",
 				describe: "Setup a module alias for resolving (Example: jquery-plugin=jquery.plugin)",
+				group: RESOLVE_GROUP,
+				requiresArg: true
+			},
+			"resolve-extensions": {
+				"type": "array",
+				describe: "Setup extensions that should be used to resolve modules (Example: --resolve-extensions .es6 .js)",
 				group: RESOLVE_GROUP,
 				requiresArg: true
 			},

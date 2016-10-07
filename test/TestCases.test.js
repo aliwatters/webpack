@@ -5,9 +5,8 @@ var vm = require("vm");
 var Test = require("mocha/lib/test");
 var checkArrayExpectation = require("./checkArrayExpectation");
 
+var Stats = require("../lib/Stats");
 var webpack = require("../lib/webpack");
-
-var harmony = (+process.versions.node.split(".")[0]) >= 4;
 
 describe("TestCases", function() {
 	var casesPath = path.join(__dirname, "cases");
@@ -66,7 +65,7 @@ describe("TestCases", function() {
 		devtool: "cheap-source-map"
 	}, {
 		name: "minimized",
-		excludeNominimize: true,
+		minimize: true,
 		plugins: [
 			new webpack.optimize.UglifyJsPlugin({
 				sourceMap: false
@@ -74,7 +73,7 @@ describe("TestCases", function() {
 		]
 	}, {
 		name: "minimized-source-map",
-		excludeNominimize: true,
+		minimize: true,
 		plugins: [
 			new webpack.optimize.UglifyJsPlugin()
 		]
@@ -86,14 +85,14 @@ describe("TestCases", function() {
 		]
 	}, {
 		name: "minimized-deduped",
-		excludeNominimize: true,
+		minimize: true,
 		plugins: [
 			new webpack.optimize.DedupePlugin(),
 			new webpack.optimize.UglifyJsPlugin()
 		]
 	}, {
 		name: "optimized",
-		excludeNominimize: true,
+		minimize: true,
 		plugins: [
 			new webpack.optimize.DedupePlugin(),
 			new webpack.optimize.OccurrenceOrderPlugin(),
@@ -102,7 +101,7 @@ describe("TestCases", function() {
 	}, {
 		name: "all-combined",
 		devtool: "#@source-map",
-		excludeNominimize: true,
+		minimize: true,
 		plugins: [
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.optimize.DedupePlugin(),
@@ -114,15 +113,17 @@ describe("TestCases", function() {
 		describe(config.name, function() {
 			categories.forEach(function(category) {
 				describe(category.name, function() {
-					this.timeout(10000);
+					this.timeout(20000);
 					category.tests.filter(function(test) {
-						var minimizeCheckOk = !config.excludeNominimize || test.indexOf("nominimize") < 0;
-						var harmonyCheckOk = !/^es6/.test(test) || harmony;
-						return minimizeCheckOk && harmonyCheckOk;
+						var testDirectory = path.join(casesPath, category.name, test);
+						var filterPath = path.join(testDirectory, "test.filter.js");
+						if(fs.existsSync(filterPath)) {
+							return require(filterPath)(config);
+						}
+						return true;
 					}).forEach(function(testName) {
 						var suite = describe(testName, function() {});
 						it(testName + " should compile", function(done) {
-							this.timeout(10000);
 							var testDirectory = path.join(casesPath, category.name, testName);
 							var outputDirectory = path.join(__dirname, "js", config.name, category.name, testName);
 							var options = {
@@ -139,12 +140,12 @@ describe("TestCases", function() {
 									modules: ["web_modules", "node_modules"],
 									mainFields: ["webpack", "browser", "web", "browserify", ["jam", "main"], "main"],
 									aliasFields: ["browser"],
-									extensions: ["", ".webpack.js", ".web.js", ".js"]
+									extensions: [".webpack.js", ".web.js", ".js"]
 								},
 								resolveLoader: {
 									modules: ["web_loaders", "web_modules", "node_loaders", "node_modules"],
 									mainFields: ["webpackLoader", "webLoader", "loader", "main"],
-									extensions: ["", ".webpack-loader.js", ".web-loader.js", ".loader.js", ".js"]
+									extensions: [".webpack-loader.js", ".web-loader.js", ".loader.js", ".js"]
 								},
 								module: {
 									loaders: [{
@@ -159,12 +160,22 @@ describe("TestCases", function() {
 									}]
 								},
 								plugins: (config.plugins || []).concat(
-									new webpack.dependencies.LabeledModulesPlugin()
+									function() {
+										this.plugin("compilation", function(compilation) {
+											["optimize", "optimize-modules-basic", "optimize-chunks-basic", "after-optimize-tree", "after-optimize-assets"].forEach(function(hook) {
+												compilation.plugin(hook, function() {
+													compilation.checkConstraints();
+												});
+											});
+										});
+									}
 								)
 							};
 							webpack(options, function(err, stats) {
 								if(err) return done(err);
-								fs.writeFileSync(path.join(outputDirectory, "stats.txt"), stats.toString(), "utf-8");
+								var statOptions = Stats.presetToOptions("verbose");
+								statOptions.colors = false;
+								fs.writeFileSync(path.join(outputDirectory, "stats.txt"), stats.toString(statOptions), "utf-8");
 								var jsonStats = stats.toJson({
 									errorDetails: true
 								});
